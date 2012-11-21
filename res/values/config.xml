@@ -45,5 +45,8 @@
          Setting to false will disable Volume Rocker Wake support -->
     <bool name="config_show_volumeRockerWake">false</bool>
 
+    <!-- LED Flashlight -->
+    <bool name="has_led_flash">false</bool>
+
     <!-- **** CYANOGENMOD ADDITIONS END **** -->
 </resources>
