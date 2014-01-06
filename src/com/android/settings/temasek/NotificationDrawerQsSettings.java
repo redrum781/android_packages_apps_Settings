@@ -50,10 +50,14 @@ public class NotificationDrawerQsSettings extends SettingsPreferenceFragment
             "quicksettings_tiles_style";
     private static final String PREF_TILE_PICKER =
             "tile_picker";
+    private static final String PREF_BRIGHTNESS_LOC =
+            "brightness_location";
 
     CheckBoxPreference mHideCarrier;
     SeekBarPreference mNotificationAlpha;
     ListPreference mQuickPulldown;
+
+    private ListPreference mBrightnessLocation;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,6 +72,12 @@ public class NotificationDrawerQsSettings extends SettingsPreferenceFragment
                 Settings.System.NOTIFICATION_HIDE_CARRIER, 0) == 1;
         mHideCarrier.setChecked(hideCarrier);
         mHideCarrier.setOnPreferenceChangeListener(this);
+
+        mBrightnessLocation = (ListPreference) findPreference(PREF_BRIGHTNESS_LOC);
+            mBrightnessLocation.setOnPreferenceChangeListener(this);
+            mBrightnessLocation.setValue(Integer.toString(Settings.System.getInt(getActivity()
+                    .getContentResolver(), Settings.System.STATUSBAR_TOGGLES_BRIGHTNESS_LOC, 3)));
+            mBrightnessLocation.setSummary(mBrightnessLocation.getEntry());
 
         PackageManager pm = getPackageManager();
         boolean isMobileData = pm.hasSystemFeature(PackageManager.FEATURE_TELEPHONY);
@@ -146,6 +156,13 @@ public class NotificationDrawerQsSettings extends SettingsPreferenceFragment
             Settings.System.putInt(getContentResolver(), Settings.System.QS_QUICK_PULLDOWN,
                     statusQuickPulldown);
             updatePulldownSummary(statusQuickPulldown);
+            return true;
+        } else if (preference == mBrightnessLocation) {
+            int val = Integer.parseInt((String) newValue);
+            int index = mBrightnessLocation.findIndexOfValue((String) newValue);
+            Settings.System.putInt(getContentResolver(),
+            Settings.System.STATUSBAR_TOGGLES_BRIGHTNESS_LOC, val);
+            mBrightnessLocation.setSummary(mBrightnessLocation.getEntries()[index]);
             return true;
         }
         return false;

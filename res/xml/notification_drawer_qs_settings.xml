@@ -24,6 +24,12 @@
          android:fragment="com.android.settings.cyanogenmod.PowerWidget"
          android:title="@string/notification_power_widgets_title" />
 
+     <ListPreference
+            android:key="brightness_location"
+            android:entries="@array/brightness_location_entries"
+            android:entryValues="@array/brightness_location_values"
+            android:title="@string/brightness_location_title" />
+
      <CheckBoxPreference
          android:key="notification_hide_carrier"
          android:title="@string/notification_hide_carrier_title"
